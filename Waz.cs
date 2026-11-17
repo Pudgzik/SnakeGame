@@ -8,9 +8,13 @@ public class Waz
     public string kierunek;
     public ConsoleColor kolor;
     public int doWzrostu = 0;
+    public string nazwa;
+    public int score = 0;
+    public bool zywy = true;
 
-    public Waz(int x, int y, string kierunek, ConsoleColor kolor)
+    public Waz(string nazwa, int x, int y, string kierunek, ConsoleColor kolor)
     {
+        this.nazwa = nazwa;
         this.kierunek = kierunek;
         this.kolor = kolor;
         int krok = (kierunek == "LEFT") ? 1 : -1;   // ogon za głową
@@ -43,6 +47,16 @@ public class Waz
             doWzrostu--;
         else
             cialo.RemoveAt(cialo.Count - 1);
+    }
+
+    // Czy wąż zajmuje pole (x, y)? od = 1 pomija głowę
+    public bool Zawiera(int x, int y, int od)
+    {
+        for (int i = od; i < cialo.Count; i++)
+        {
+            if (cialo[i].xPos == x && cialo[i].yPos == y) return true;
+        }
+        return false;
     }
 
     public void Rysuj()
