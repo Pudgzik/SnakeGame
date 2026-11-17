@@ -13,7 +13,6 @@ class Program
     {
         Console.CursorVisible = false;
         Waz gracz1 = new Waz(screenwidth / 2, screenheight / 2, "RIGHT", ConsoleColor.Green);
-        NoweJedzenie(gracz1);
 
         while (true)
         {
@@ -33,60 +32,11 @@ class Program
 
             gracz1.Ruch();
 
-            // Jedzenie: +1 punkt i wąż rośnie
-            if (gracz1.Glowa.xPos == jedzenie.Xpos && gracz1.Glowa.yPos == jedzenie.Ypos)
-            {
-                score++;
-                gracz1.doWzrostu++;
-                NoweJedzenie(gracz1);
-            }
-
-            // Kolizja ze ścianą albo z własnym ogonem
-            if (UderzylWSciane(gracz1) || gracz1.Zawiera(gracz1.Glowa.xPos, gracz1.Glowa.yPos, 1))
-            {
-                GameOver();
-                return;
-            }
-
             Console.Clear();
             RysujRamke();
-            Console.ForegroundColor = jedzenie.schermKleur;
-            Console.SetCursorPosition(jedzenie.Xpos, jedzenie.Ypos);
-            Console.Write(jedzenie.karacter);
             gracz1.Rysuj();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(0, screenheight);
-            Console.Write("Score: " + score);
             Thread.Sleep(150);
         }
-    }
-
-    // Losuje pole wewnątrz ramki, na którym nie ma węża
-    static void NoweJedzenie(Waz waz)
-    {
-        do
-        {
-            jedzenie.Xpos = randomnummer.Next(1, screenwidth - 1);
-            jedzenie.Ypos = randomnummer.Next(1, screenheight - 1);
-        } while (waz.Zawiera(jedzenie.Xpos, jedzenie.Ypos, 0));
-    }
-
-    static bool UderzylWSciane(Waz waz)
-    {
-        return waz.Glowa.xPos == 0 || waz.Glowa.xPos == screenwidth - 1
-            || waz.Glowa.yPos == 0 || waz.Glowa.yPos == screenheight - 1;
-    }
-
-    static void GameOver()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.SetCursorPosition(screenwidth / 5, screenheight / 2);
-        Console.WriteLine("Game Over");
-        Console.SetCursorPosition(screenwidth / 5, screenheight / 2 + 1);
-        Console.WriteLine("Twój wynik: " + score);
-        Console.ResetColor();
-        Console.CursorVisible = true;
     }
 
     static void RysujRamke()

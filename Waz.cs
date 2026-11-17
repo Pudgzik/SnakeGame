@@ -45,16 +45,6 @@ public class Waz
             cialo.RemoveAt(cialo.Count - 1);
     }
 
-    // Czy wąż zajmuje pole (x, y)? od = 1 pomija głowę
-    public bool Zawiera(int x, int y, int od)
-    {
-        for (int i = od; i < cialo.Count; i++)
-        {
-            if (cialo[i].xPos == x && cialo[i].yPos == y) return true;
-        }
-        return false;
-    }
-
     public void Rysuj()
     {
         Console.ForegroundColor = kolor;
