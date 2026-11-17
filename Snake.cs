@@ -5,6 +5,9 @@ class Program
 {
     static int screenwidth = 32;
     static int screenheight = 16;
+    static Random randomnummer = new Random();
+    static Obstakel jedzenie = new Obstakel { schermKleur = ConsoleColor.Cyan, karacter = "*" };
+    static int score = 0;
 
     static void Main()
     {
