@@ -11,11 +11,13 @@ public class Waz
     public string nazwa;
     public int score = 0;
     public bool zywy = true;
+    string ostatniRuch;
 
     public Waz(string nazwa, int x, int y, string kierunek, ConsoleColor kolor)
     {
         this.nazwa = nazwa;
         this.kierunek = kierunek;
+        this.ostatniRuch = kierunek;
         this.kolor = kolor;
         int krok = (kierunek == "LEFT") ? 1 : -1;   // ogon za głową
         for (int i = 0; i < 3; i++)
@@ -29,8 +31,14 @@ public class Waz
         get { return cialo[0]; }
     }
 
+    // Issue #1: wąż nie może zawrócić o 180° (wjechałby w siebie).
+    // Porównujemy z kierunkiem ostatniego RUCHU, a nie ostatniego klawisza.
     public void ZmienKierunek(string nowy)
     {
+        if (nowy == "UP" && ostatniRuch == "DOWN") return;
+        if (nowy == "DOWN" && ostatniRuch == "UP") return;
+        if (nowy == "LEFT" && ostatniRuch == "RIGHT") return;
+        if (nowy == "RIGHT" && ostatniRuch == "LEFT") return;
         kierunek = nowy;
     }
 
@@ -42,6 +50,7 @@ public class Waz
         if (kierunek == "LEFT") nowaGlowa.xPos--;
         if (kierunek == "RIGHT") nowaGlowa.xPos++;
 
+        ostatniRuch = kierunek;
         cialo.Insert(0, nowaGlowa);
         if (doWzrostu > 0)
             doWzrostu--;
