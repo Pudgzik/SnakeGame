@@ -63,6 +63,16 @@ class Program
                     waz.zywy = false;
             }
 
+            // Kolizja z innym wężem: wjazd w jego ciało albo zderzenie głowami
+            foreach (Waz waz in weze)
+            {
+                foreach (Waz inny in weze)
+                {
+                    if (inny != waz && inny.Zawiera(waz.Glowa.xPos, waz.Glowa.yPos, 0))
+                        waz.zywy = false;
+                }
+            }
+
             if (!gracz1.zywy || !gracz2.zywy)
             {
                 GameOver();
@@ -121,7 +131,14 @@ class Program
         Console.ForegroundColor = ConsoleColor.Red;
         Console.SetCursorPosition(screenwidth / 5, screenheight / 2);
         Console.WriteLine("Game Over");
-        int linia = screenheight / 2 + 1;
+        Console.SetCursorPosition(screenwidth / 5, screenheight / 2 + 1);
+        if (weze[0].zywy)
+            Console.WriteLine("Wygrywa: " + weze[0].nazwa);
+        else if (weze[1].zywy)
+            Console.WriteLine("Wygrywa: " + weze[1].nazwa);
+        else
+            Console.WriteLine("Remis!");
+        int linia = screenheight / 2 + 2;
         foreach (Waz waz in weze)
         {
             Console.ForegroundColor = waz.kolor;
